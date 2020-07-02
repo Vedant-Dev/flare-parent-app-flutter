@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # flare_parent
 
 A new Flutter project.
@@ -14,3 +15,6 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+=======
+# flare-parent-app-flutter
+>>>>>>> dfa954924e167eb0ab5c9e6f13000635d9318baf
