@@ -1,4 +1,4 @@
-import 'package:flare_parent/Screen/HomePage.dart';
+import 'package:flare_parent/Screen/LoginPage.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
         primaryColor: Color(0xff15db99),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: HomePage(),
+      home: LoginPage(),
     );
   }
 }

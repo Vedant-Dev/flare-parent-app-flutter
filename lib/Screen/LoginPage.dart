@@ -53,12 +53,12 @@ class _LoginState extends State<Login> {
         Column(
           children: <Widget>[
             Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(left: 40, bottom: 10),
                   child: Text(
-                    "Phone Number",
+                    isNotVarified?"Phone Number":'Enter OTP',
                     style: TextStyle(fontSize: 16, color: Color(0xFF999A9A)),
                   ),
                 ),

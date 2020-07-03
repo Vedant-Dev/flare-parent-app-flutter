@@ -1,5 +1,6 @@
 import 'package:flare_parent/Models/Post.dart';
 import 'package:flare_parent/Models/Student.dart';
+import 'package:flare_parent/Models/TestModels.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
@@ -17,37 +18,8 @@ class _ActivityPageState extends State<ActivityPage> {
 
   @override
   void initState() {
-    String testProfile =
-        "https://image.shutterstock.com/image-photo/double-exposure-image-business-man-260nw-769705507.jpg";
-    Student testStudent = new Student(testProfile, "40", 'S1234', "John Doe",
-        "11", 'c', 'farmer doe', 'miss doe', '12-6-2020', '1234567890', [], []);
-    _currentStudent = new Student(testProfile, "40", 'S3921', "John Doe", "11",
-        'c', 'farmer doe', 'miss doe', '12-6-2020', '1234567890', [], []);
-   testposts = [
-      new Post(
-          'p0001', testProfile, '01-07-2020', 'This is Message', testStudent, [
-        testStudent,
-        testStudent
-      ], [
-        Comment(
-            'This is Test Comment', testStudent, '22-22-1784', '04:55:65', [])
-      ]),
-      new Post('p0001', testProfile, '01-07-2020', 'This is Message',
-          testStudent, [], [
-        Comment(
-            'This is Test Comment', testStudent, '22-22-1784', '04:55:65', [])
-      ]),
-      new Post(
-          'p0001', testProfile, '01-07-2020', 'This is Message', testStudent, [
-        testStudent,
-        testStudent,
-        testStudent,
-        testStudent
-      ], [
-        Comment(
-            'This is Test Comment', testStudent, '22-22-1784', '04:55:65', [])
-      ]),
-    ];
+    _currentStudent = TestModels.currentStudent;
+    testposts = TestModels.posts;
     super.initState();
   }
 
@@ -67,14 +39,14 @@ class _ActivityPageState extends State<ActivityPage> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                _postCard( snapshot.data[index]),
+                _postCard(snapshot.data[index]),
               ],
             ),
           );
         });
   }
 
-  Future<List<Post>> getPosts() async{
+  Future<List<Post>> getPosts() async {
     List<Post> posts = [];
     posts = testposts;
     return posts;
@@ -92,7 +64,7 @@ class _ActivityPageState extends State<ActivityPage> {
     }
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 5),
-      child: InkWell(
+      child: GestureDetector(
         child: Column(
           children: <Widget>[
             ListTile(
@@ -192,7 +164,11 @@ class _ActivityPageState extends State<ActivityPage> {
             }
           });
         },
-        onTap: () {},
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+            return new PostPage(post: post, currentStudent: _currentStudent);
+          }));
+        },
       ),
     );
   }
@@ -245,15 +221,21 @@ class _PostPageState extends State<PostPage> {
   }
 
   addComment(String msg) {
-    Comment comment = new Comment(
-        msg,
-        currentStudent,
-        new DateFormat("dd:MM:yyyy").format(new DateTime.now()),
-        new DateFormat("H:m:s").format(new DateTime.now()), []);
-    post.comments.insert(0, comment);
-    print(new DateFormat("dd:MM:yyyy").format(new DateTime.now()));
-    print(new DateFormat("H:m:s").format(new DateTime.now()));
-    setState(() {});
+    if (_commentController.text != null) {
+      Comment comment = new Comment(
+          msg,
+          currentStudent,
+          new DateFormat("dd:MM:yyyy")
+              .format(new DateTime.now())
+              .replaceAll(':', '/'),
+          new DateFormat("H:m:s").format(new DateTime.now()).substring(0, 5),
+          []);
+      post.comments.insert(0, comment);
+      print(comment.date);
+      print(comment.time);
+      _commentController.clear();
+      setState(() {});
+    }
   }
 
   Widget buildComments() {

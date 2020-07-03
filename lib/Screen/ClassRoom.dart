@@ -80,7 +80,7 @@ class _ClassRoomState extends State<ClassRoom> {
                       ],
                     ),
                     SizedBox(
-                      height: 120,
+                      height: 180,
                     ),
                   ],
                 ),

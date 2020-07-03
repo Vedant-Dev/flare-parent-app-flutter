@@ -1,5 +1,6 @@
 import 'package:flare_parent/Models/Message.dart';
 import 'package:flare_parent/Models/Student.dart';
+import 'package:flare_parent/Models/TestModels.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -21,21 +22,14 @@ class _ContactPageState extends State<ContactPage> {
   void initState() {
     _color = Color(0xff15db99);
     _textStyle = TextStyle(color: _color, fontFamily: 'Poppins');
-    String testProfile =
-        "https://image.shutterstock.com/image-photo/double-exposure-image-business-man-260nw-769705507.jpg";
-    currentStudent = new Student(testProfile, "40", 'S1234', "John Doe", "11",
-        'c', 'farmer doe', 'miss doe', '12-6-2020', '1234567890', [], []);
-    testStudent = new Student(testProfile, "23", 'S4324', "Jonny Sins", "11",
-        'c', 'Mr. Sin', 'Mrs. Sin', '14-12-2003', '1234567890', [], []);
+        
+    currentStudent = TestModels.currentStudent;
+    testStudent = TestModels.testStudent;
+    messages = TestModels.messages;
+
     super.initState();
     _controller = TextEditingController();
-    String currentTime = new DateFormat("H:m:s")
-        .format(new DateTime.now().subtract(new Duration(days: 5, hours: 6)));
-    messages = [
-      new Message('Please Reply Bro!!', currentTime, testStudent, ''),
-      new Message('What\s Up Bro', currentTime, testStudent, ''),
-      new Message('Hi', currentTime, testStudent, ''),
-    ];
+
   }
 
   @override
@@ -140,7 +134,7 @@ class _ContactPageState extends State<ContactPage> {
                   maxWidth: MediaQuery.of(context).size.width * .6),
               padding: const EdgeInsets.all(15.0),
               decoration: BoxDecoration(
-                color: Colors.yellow[400],
+                color: Colors.blueGrey[400],
                 borderRadius: BorderRadius.only(
                   topRight: Radius.circular(25),
                   bottomLeft: Radius.circular(25),
