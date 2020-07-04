@@ -132,7 +132,7 @@ class _ActivityPageState extends State<ActivityPage> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Text(
-                  '${post.uploader.name}: ${post.dics}',
+                  '${post.uploader.name}: ${post.dics.length > 15 ? post.dics.substring(0, 15) : post.dics}',
                   style: TextStyle(
                     color: Colors.grey,
                     fontWeight: FontWeight.w300,

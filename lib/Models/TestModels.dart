@@ -18,12 +18,18 @@ class TestModels {
       'Mrs. Singh',
       '16-11-2003',
       '1234567890', [], [], [
-    new NotificationModel('dwhfbxhjwebfh', 'wdhbchjwx'),
-    new NotificationModel('dwhfbxhjwebfh', 'wdhbchjwx'),
-    new NotificationModel('dwhfbxhjwebfh', 'wdhbchjwx'),
-    new NotificationModel('dwhfbxhjwebfh', 'wdhbchjwx'),
-    new NotificationModel('dwhfbxhjwebfh', 'wdhbchjwx'),
-    new NotificationModel('dwhfbxhjwebfh', 'wdhbchjwx'),
+    new NotificationModel('Hello, You Are Tagged In A Message', 'By: Joe Deo',
+        NotificationModelType.NORMAL),
+    new NotificationModel('Alert! Exam Date Is Out!',
+        'Exam Will Begin On 15th Of Jan.', NotificationModelType.EXAM_ALERT),
+    new NotificationModel(
+        'Exam Will Remain Close', 'Heavy Rain', NotificationModelType.INFO),
+    new NotificationModel('Results Are Out!', 'Results Are Announced',
+        NotificationModelType.RESULT_ALERT),
+    new NotificationModel('Hello, You Are Tagged In A Message', 'By: Joe Deo',
+        NotificationModelType.NORMAL),
+    new NotificationModel('Your Ward "Joe Deo Has a Complaint"', 'Fighting',
+        NotificationModelType.COMPLAIN),
   ]);
 
   static Student testStudent = new Student(

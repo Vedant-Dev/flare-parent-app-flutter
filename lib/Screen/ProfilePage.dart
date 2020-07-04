@@ -8,65 +8,67 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  List<Student> numberAssociated;
-  bool _selected = false;
-  Student selectedStudent;
+  // List<Student> numberAssociated;
+  // bool _selected = false;
+  // Student selectedStudent;
 
   @override
   void initState() {
-    numberAssociated = [
-      TestModels.currentStudent,
-      TestModels.testStudent,
-    ];
+    // numberAssociated = [
+    //   TestModels.currentStudent,
+    //   TestModels.testStudent,
+    // ];
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return selectedStudent == null?_askKid(context):_kid(selectedStudent);
+    return _kid(TestModels.currentStudent);
   }
 
-  Widget _askKid(BuildContext context) {
-    ListView.builder(
-        itemCount: numberAssociated.length,
-        itemBuilder: (context, index) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              SizedBox(height: 150),
-              GestureDetector(
-                child: Material(
-                  elevation: 20,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(30)),
-                    ),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            CircleAvatar(
-                              backgroundImage: NetworkImage(
-                                  numberAssociated[index].photoUrl),
-                            ),
-                            Text(numberAssociated[index].name)
-                          ],
-                        ),
-                        Text(numberAssociated[index].sID),
-                        Text(
-                            '${numberAssociated[index].classOfStudent} - ${numberAssociated[index].section}'),
-                        Text(numberAssociated[index].fathersName),
-                      ],
-                    ),
-                  ),
-                ),
-                onTap: (){selectedStudent = numberAssociated[index];},
-              ),
-            ],
-          );
-        });
-  }
+  // Widget _askKid(BuildContext context) {
+  //   ListView.builder(
+  //       itemCount: numberAssociated.length,
+  //       itemBuilder: (context, index) {
+  //         return Column(
+  //           crossAxisAlignment: CrossAxisAlignment.center,
+  //           mainAxisAlignment: MainAxisAlignment.start,
+  //           children: [
+  //             SizedBox(height: 150),
+  //             GestureDetector(
+  //               child: Material(
+  //                 elevation: 20,
+  //                 child: Container(
+  //                   decoration: BoxDecoration(
+  //                     borderRadius: BorderRadius.all(Radius.circular(30)),
+  //                   ),
+  //                   child: Column(
+  //                     children: [
+  //                       Row(
+  //                         children: [
+  //                           CircleAvatar(
+  //                             backgroundImage: NetworkImage(
+  //                                 numberAssociated[index].photoUrl),
+  //                           ),
+  //                           Text(numberAssociated[index].name)
+  //                         ],
+  //                       ),
+  //                       Text(numberAssociated[index].sID),
+  //                       Text(
+  //                           '${numberAssociated[index].classOfStudent} - ${numberAssociated[index].section}'),
+  //                       Text(numberAssociated[index].fathersName),
+  //                     ],
+  //                   ),
+  //                 ),
+  //               ),
+  //               onTap: () {
+  //                 selectedStudent = numberAssociated[index];
+  //               },
+  //             ),
+  //           ],
+  //         );
+  //       });
+  // }
 
   Widget _kid(Student student) {
     return SingleChildScrollView(

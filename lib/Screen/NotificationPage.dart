@@ -9,38 +9,54 @@ class NotificationPage extends StatefulWidget {
 }
 
 class _NotificationPageState extends State<NotificationPage> {
-
   List<NotificationModel> notifications;
 
   @override
-  void initState() { 
+  void initState() {
     super.initState();
     Student _currentStudent = TestModels.currentStudent;
     notifications = _currentStudent.notifications;
   }
+
   @override
   Widget build(BuildContext context) {
-    return _body();
+    return Container(
+      child: ListView.builder(
+        itemCount: notifications.length,
+        itemBuilder: (context, index) {
+          return Column(children: [
+            ListTile(
+              onTap: () {},
+              leading: CircleAvatar(
+                backgroundColor: getColor(notifications[index].type),
+              ),
+              title: Text(notifications[index].title),
+              subtitle: Text(notifications[index].subTitle),
+            ),
+            Divider(),
+          ]);
+        },
+      ),
+    );
   }
 
-  Widget _body() {
-    return new Container(
-      margin: EdgeInsets.only(left: 5.0,right: 5.0),
-      child: new ListView.builder(
-          itemCount: notifications.length,
-          itemBuilder: (BuildContext context, int index) {
-            return new Container(
-              margin: EdgeInsets.only(top:10.0,bottom: 10.0),
-                child: new Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                ListTile(
-                  title: Text(notifications[index].title.toString()),
-                  subtitle: Text(notifications[index].subTitle.toString()),
-                ),
-              ],
-            ));
-          }),
-    );
+  Color getColor(String type) {
+    Color color;
+    switch (type) {
+      case NotificationModelType.COMPLAIN:
+      case NotificationModelType.EXAM_ALERT:
+        color = Colors.red;
+        break;
+      case NotificationModelType.NORMAL:
+      case NotificationModelType.INFO:
+        color = Colors.blueGrey;
+        break;
+      case NotificationModelType.RESULT_ALERT:
+        color = Colors.yellow;
+        break;
+      default:
+        color = Colors.blueGrey;
+    }
+    return color;
   }
 }
