@@ -2,16 +2,26 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flare_parent/Models/Quiz.dart';
 import 'package:flare_parent/Models/Student.dart';
 import 'package:flare_parent/Models/TestModels.dart';
+import 'package:flare_parent/Screen/Result.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-final List<String> imgList = [
+final List<String> imgListUrl = [
   'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
   'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
   'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80',
   'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80',
   'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80',
   'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80'
+];
+
+final List<InspVideo> imgList = [
+  new InspVideo(imgListUrl[0], 'Will Inspire You', imgListUrl[0]),
+  new InspVideo(imgListUrl[1], 'Will Inspire You', imgListUrl[1]),
+  new InspVideo(imgListUrl[2], 'Will Inspire You', imgListUrl[2]),
+  new InspVideo(imgListUrl[3], 'Will Inspire You', imgListUrl[3]),
+  new InspVideo(imgListUrl[4], 'Will Inspire You', imgListUrl[4]),
 ];
 
 class ClassRoom extends StatefulWidget {
@@ -27,11 +37,13 @@ class _ClassRoomState extends State<ClassRoom> {
   int _notification;
   String _noticeText;
   Quiz testQuiz;
+  String alertText;
 
   @override
   void initState() {
+    alertText = 'null';
     Student _currentStudent = TestModels.currentStudent;
-    _notification = _currentStudent.notifications.length;
+    _notification = 0;
     String temp = _notification == 0 ? "Notification" : "Notifications";
     _noticeText = "You Have $_notification $temp";
     _color = Color(0xff15db99);
@@ -57,7 +69,9 @@ class _ClassRoomState extends State<ClassRoom> {
         child: Stack(
           children: <Widget>[
             Container(
-              padding: EdgeInsets.only(top: 125),
+              padding: (alertText != "null" && _notification > 0)
+                  ? EdgeInsets.only(top: 52)
+                  : EdgeInsets.only(top: 5),
               height: MediaQuery.of(context).size.height,
               width: double.infinity,
               child: SingleChildScrollView(
@@ -76,16 +90,33 @@ class _ClassRoomState extends State<ClassRoom> {
                     SizedBox(height: 20.0),
                     _bigCards('assets/images/result.png', testQuiz, context),
                     SizedBox(height: 20.0),
+                    Text(
+                      'Must Watch',
+                      style: TextStyle(
+                          color: Colors.grey,
+                          fontFamily: 'Poppins',
+                          fontSize: 12),
+                    ),
                     _buildSlider(),
                     SizedBox(height: 20.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        _smallCard('assets/images/attend.png', "Announcements",
+                            context),
+                        _smallCard('assets/images/result.png', "Docs", context),
+                      ],
+                    ),
+                    SizedBox(height: 20.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
                         _smallCard(
-                            'assets/images/attend.png', "Attendance", context),
-                        _smallCard(
-                            'assets/images/result.png', "Exam Result", context),
+                            'assets/images/attend.png', "Calender", context),
+                        _smallCard('assets/images/result.png',
+                            "Quizs and Tests", context),
                       ],
                     ),
                     SizedBox(height: 20.0),
@@ -123,27 +154,29 @@ class _ClassRoomState extends State<ClassRoom> {
                 ),
               ),
             ),
-            Container(
-              height: 120,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  color: _color,
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(10),
-                      bottomRight: Radius.circular(10))),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30),
-                child: Center(
-                  child: Text(
-                    _noticeText,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontFamily: 'Poppins'),
-                  ),
-                ),
-              ),
-            ),
+            (alertText != null && _notification > 0)
+                ? Container(
+                    height: 50,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        color: _color,
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(10),
+                            bottomRight: Radius.circular(10))),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 30),
+                      child: Center(
+                        child: Text(
+                          alertText != 'null' ? alertText : _noticeText,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: alertText != 'null' ? 16 : 24,
+                              fontFamily: 'Poppins'),
+                        ),
+                      ),
+                    ),
+                  )
+                : Container(),
           ],
         ),
       ),
@@ -163,45 +196,50 @@ class _ClassRoomState extends State<ClassRoom> {
 
   Widget _smallCard(image, title, BuildContext context) {
     return GestureDetector(
-      child: Material(
-        borderRadius: BorderRadius.all(Radius.circular(30)),
-        elevation: 4.0,
-        child: Container(
-          height: 170,
-          width: (MediaQuery.of(context).size.width / 2) - 30,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.white,
-                blurRadius: 6.0,
-              ),
-            ],
-            color: Colors.white,
-          ),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Image.asset(
-                  image,
-                  height: 80,
+        child: Material(
+          borderRadius: BorderRadius.all(Radius.circular(30)),
+          elevation: 4.0,
+          child: Container(
+            height: 170,
+            width: (MediaQuery.of(context).size.width / 2) - 30,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.white,
+                  blurRadius: 6.0,
                 ),
-                SizedBox(
-                  height: 5,
-                ),
-                Text(title,
-                    style: _textStyle.copyWith(
-                        fontWeight: FontWeight.bold, fontSize: 18)),
               ],
+              color: Colors.white,
+            ),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Image.asset(
+                    image,
+                    height: 80,
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(title,
+                      style: _textStyle.copyWith(
+                          fontWeight: FontWeight.bold,
+                          fontSize: title == 'Announcements' ? 14 : 18)),
+                ],
+              ),
             ),
           ),
         ),
-      ),
-      onTap: () {
-        print(title);
-      },
-    );
+        onTap: () {
+          print(title);
+          if (title == 'Exam Result') {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return new ResultPage();
+            }));
+          }
+        });
   }
 
   Widget _bigCards(image, Quiz subject, BuildContext context) {
@@ -286,7 +324,8 @@ class _ClassRoomState extends State<ClassRoom> {
                     borderRadius: BorderRadius.all(Radius.circular(5.0)),
                     child: Stack(
                       children: <Widget>[
-                        Image.network(item, fit: BoxFit.cover, width: 1000.0),
+                        Image.network(item.image,
+                            fit: BoxFit.cover, width: 1000.0),
                         Positioned(
                           bottom: 0.0,
                           left: 0.0,
@@ -305,7 +344,8 @@ class _ClassRoomState extends State<ClassRoom> {
                             padding: EdgeInsets.symmetric(
                                 vertical: 10.0, horizontal: 20.0),
                             child: Text(
-                              'No. ${imgList.indexOf(item)} image',
+                              item.text,
+                              overflow: TextOverflow.fade,
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 20.0,
@@ -318,9 +358,14 @@ class _ClassRoomState extends State<ClassRoom> {
                     )),
               ),
               onTap: () {
-                print(imgList.indexOf(item));
+                launch(item.url);
               },
             ),
           ))
       .toList();
+}
+
+class InspVideo {
+  final String image, text, url;
+  InspVideo(this.image, this.text, this.url);
 }

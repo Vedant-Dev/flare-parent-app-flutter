@@ -32,76 +32,80 @@ class AddPostPageState extends State<AddPostPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Add Post',
-            style: TextStyle(
-                color: Colors.black,
-                fontFamily: 'Light',
-                fontWeight: FontWeight.bold)),
-        centerTitle: false,
-        backgroundColor: Colors.white,
-        iconTheme: IconThemeData(color: Colors.black),
-      ),
-      body: !isLoading
-          ? Center(
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    margin: const EdgeInsets.all(10),
-                    width: 300,
-                    height: 300,
-                    child:
-                        (_image != null) ? Image.file(_image) : Placeholder(),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+        appBar: AppBar(
+          title: Text('Add Post',
+              style: TextStyle(
+                  color: Colors.black,
+                  fontFamily: 'Light',
+                  fontWeight: FontWeight.bold)),
+          centerTitle: false,
+          backgroundColor: Colors.white,
+          iconTheme: IconThemeData(color: Colors.black),
+        ),
+        body: !isLoading
+            ? SingleChildScrollView(
+                child: Center(
+                  child: Column(
                     children: <Widget>[
-                      RaisedButton(
-                        color: Colors.blue,
-                        textColor: Colors.white,
-                        child: Text("Gallery"),
-                        onPressed: () {
-                          getImage(ImageSource.gallery);
-                        },
+                      Container(
+                        margin: const EdgeInsets.all(10),
+                        width: 300,
+                        height: 300,
+                        child: (_image != null)
+                            ? Image.file(_image)
+                            : Placeholder(),
                       ),
-                      RaisedButton(
-                        color: Colors.orange,
-                        textColor: Colors.white,
-                        child: Text("Camera"),
-                        onPressed: () {
-                          getImage(ImageSource.camera);
-                        },
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          RaisedButton(
+                            color: Colors.blue,
+                            textColor: Colors.white,
+                            child: Text("Gallery"),
+                            onPressed: () {
+                              getImage(ImageSource.gallery);
+                            },
+                          ),
+                          RaisedButton(
+                            color: Colors.orange,
+                            textColor: Colors.white,
+                            child: Text("Camera"),
+                            onPressed: () {
+                              getImage(ImageSource.camera);
+                            },
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 30.0,
+                      ),
+                      TextField(
+                        textInputAction: TextInputAction.done,
+                        controller: _controller,
+                        decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(
+                              vertical: 10.0,
+                              horizontal: 20.0,
+                            ),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20.0)),
+                            hintText: "Aa"),
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: 30.0,
-                  ),
-                  TextField(
-                    textInputAction: TextInputAction.done,
-                    controller: _controller,
-                    decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.symmetric(
-                          vertical: 10.0,
-                          horizontal: 20.0,
-                        ),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20.0)),
-                        hintText: "Aa"),
-                  ),
-                ],
-              ),
-            )
-          : Center(child: CircularProgressIndicator()),
-      floatingActionButton: FloatingActionButton(
-              child: Icon(
-                Icons.send,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                addPost(context);
-              })
-    );
+                ),
+              )
+            : Center(child: CircularProgressIndicator()),
+        floatingActionButton: FloatingActionButton(
+            child: Icon(
+              Icons.send,
+              color: Colors.white,
+            ),
+            onPressed: _image != null
+                ? () {
+                    addPost(context);
+                  }
+                : null));
   }
 
   void getImage(ImageSource source) async {
@@ -124,7 +128,9 @@ class AddPostPageState extends State<AddPostPage> {
         (new DateFormat('dd:MM:yyyy').format(new DateTime.now()))
             .toString()
             .replaceAll(':', '/'),
-        _controller.text != null ? _controller.text.toString() : 'Hello, friends!',
+        _controller.text != null
+            ? _controller.text.toString()
+            : 'Hello, friends!',
         TestModels.currentStudent,
         [],
         []);

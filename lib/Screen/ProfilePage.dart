@@ -173,10 +173,6 @@ class _ProfilePageState extends State<ProfilePage> {
               ],
             ),
           ),
-          AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-          )
         ],
       ),
     );

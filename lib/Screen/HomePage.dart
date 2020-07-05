@@ -1,4 +1,5 @@
 import 'package:flare_parent/Models/TestModels.dart';
+import 'package:flare_parent/Screen/AboutPage.dart';
 import 'package:flare_parent/Screen/ActivityPage.dart';
 import 'package:flare_parent/Screen/ClassRoom.dart';
 import 'package:flare_parent/Screen/ContactPage.dart';
@@ -6,6 +7,9 @@ import 'package:flare_parent/Screen/AddPostPage.dart';
 import 'package:flare_parent/Screen/NotificationPage.dart';
 import 'package:flare_parent/Screen/ProfilePage.dart';
 import 'package:flutter/material.dart';
+import 'dart:core';
+
+import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -30,6 +34,11 @@ class _HomePageState extends State<HomePage> {
     new NotificationPage(),
     new ProfilePage(),
   ];
+
+  Uri _emailLaunchUri = Uri(
+    scheme: 'mailto',
+    path: 'iamsinghved@gmail.com',
+  );
 
   List<Widget> actionIcons = [
     IconButton(
@@ -138,6 +147,7 @@ class _HomePageState extends State<HomePage> {
           drawer: Drawer(
             child: Column(
               children: [
+                SizedBox(height: 80),
                 ListTile(
                   title: Text(
                     TestModels.currentStudent.name,
@@ -162,7 +172,9 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Divider(),
                 ListTile(
-                  onTap: () {},
+                  onTap: () {
+                    launch(_emailLaunchUri.toString());
+                  },
                   title: Text(
                     'Report An Issue',
                     style: TextStyle(
@@ -172,7 +184,9 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Divider(),
                 ListTile(
-                  onTap: () {},
+                  onTap: () {
+                    launch(_emailLaunchUri.toString());
+                  },
                   title: Text(
                     'Contact Developers',
                     style: TextStyle(
@@ -182,7 +196,12 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Divider(),
                 ListTile(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return new AboutUS();
+                    }));
+                  },
                   title: Text(
                     'About Developers',
                     style: TextStyle(
@@ -238,7 +257,8 @@ class _HomePageState extends State<HomePage> {
       if (index == 2) {
         actionIcons = [
           MaterialButton(
-            color: Colors.transparent,
+            elevation: 0.0,
+            color: Colors.white,
             child: Text('Add Post', style: TextStyle(color: Colors.blue)),
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {

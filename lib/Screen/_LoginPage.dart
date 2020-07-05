@@ -59,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       Container(
                           margin: const EdgeInsets.symmetric(horizontal: 10),
-                          child: Text('Flare: Parent',
+                          child: Text('Flare Parent',
                               style: TextStyle(
                                   color: MyColors.primaryColor,
                                   fontSize: 30,
